@@ -4,13 +4,10 @@ function parse(string: string) {
 }
 
 function safeParse(string: string) {
-  try {
-    const date = parse(string);
-    return { date, error: null };
-  } catch (e) {
-    const error = new Error("failed to parse date");
-    return { date: undefined, error };
-  }
+  const date = parse(string);
+  if (isNaN(date.getTime()))
+    return { date: undefined, error: new Error("Invalid date") };
+  return { date, error: null };
 }
 
 function format(date: Date) {
@@ -18,4 +15,12 @@ function format(date: Date) {
   return `${day}/${month}/${year}`;
 }
 
-export { parse, safeParse, format };
+function safeFormat(date: Date, fallback = "Invalid date") {
+  try {
+    return format(date);
+  } catch (e) {
+    return fallback;
+  }
+}
+
+export { parse, safeParse, format, safeFormat };
