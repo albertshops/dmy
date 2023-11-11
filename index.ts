@@ -24,3 +24,4 @@ function safeFormat(date: Date, fallback = "Invalid date") {
 }
 
 export { parse, safeParse, format, safeFormat };
+export default { parse, safeParse, format, safeFormat };
